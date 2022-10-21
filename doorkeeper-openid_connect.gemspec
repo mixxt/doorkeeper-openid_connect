@@ -32,4 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rspec-rails'
   spec.add_development_dependency 'sqlite3', '>= 1.3.6'
+  spec.add_development_dependency 'doorkeeper-mongodb', '~> 5.2.2'
+  spec.add_development_dependency 'mongoid', '~> 7.3'
 end
