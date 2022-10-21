@@ -4,13 +4,13 @@ require 'active_support/lazy_load_hooks'
 
 module Doorkeeper
   module OpenidConnect
-    autoload :AccessGrant, "doorkeeper/openid_connect/orm/active_record/access_grant"
-    autoload :Request, "doorkeeper/openid_connect/orm/active_record/request"
-
     module Orm
       module ActiveRecord
         def run_hooks
           super
+
+          require 'doorkeeper/openid_connect/orm/active_record/access_grant'
+          require 'doorkeeper/openid_connect/orm/active_record/request'
 
           if Gem.loaded_specs['doorkeeper'].version >= Gem::Version.create('5.5.0')
             Doorkeeper.config.access_grant_model.prepend Doorkeeper::OpenidConnect::AccessGrant
@@ -48,5 +48,7 @@ module Doorkeeper
     end
   end
 
-  Orm::ActiveRecord.singleton_class.send :prepend, OpenidConnect::Orm::ActiveRecord
+  if defined?(ActiveRecord)
+    Orm::ActiveRecord.singleton_class.send :prepend, OpenidConnect::Orm::ActiveRecord
+  end
 end
